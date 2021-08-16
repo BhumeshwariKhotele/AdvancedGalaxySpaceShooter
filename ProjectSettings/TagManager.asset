@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG Layer
+    uniqueID: 1741497269
+    locked: 0
+  - name: ForeGround
+    uniqueID: 105997841
+    locked: 0
