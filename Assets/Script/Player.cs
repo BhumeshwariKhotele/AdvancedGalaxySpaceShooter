@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     private float PlayerMoveSpeed;
     private float horizontalInput;
     private float verticalInput;
+    public GameObject laserPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         PlayerMove();
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(laserPrefab,transform.position+new Vector3(0,1,0),Quaternion.identity);
+        }
 
     }
 
