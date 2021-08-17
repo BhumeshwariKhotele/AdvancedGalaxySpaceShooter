@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-   
+    public bool CanTrippleShoot = false;
     [SerializeField] float moveSpeed;
     [SerializeField] GameObject laserPrefab;
     [SerializeField] float canfire = 0f;
     [SerializeField] float fireRate = 0.25f;
     Vector3 directionKey;
+    public GameObject TrippleLaserPrefab;
+    
     // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
     }
 
+    
     // Update is called once per frame
     void Update()
     {
@@ -36,16 +39,33 @@ public class Player : MonoBehaviour
         //Instantiating laser
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
         {
-            if (Time.time > canfire)
-            {
-                Instantiate(laserPrefab, transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
-                canfire = Time.time + fireRate;
-            }
+            Shoot();
 
         }
 
     }
 
+    
+    private void Shoot()
+    {
+        if (Time.time > canfire)
+        {
+            //if tripple shot is true shoot three lasers if not one laser
+            if(CanTrippleShoot==true)
+            {
+                Instantiate(TrippleLaserPrefab, transform.position, Quaternion.identity);
+
+            }
+            else
+            {
+                Instantiate(laserPrefab, transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            }
+
+            canfire = Time.time + fireRate;
+        }
+    }
+
+    
     private void XYDirection(float Xval, float Yval)
     {
         if (Yval > 0)
@@ -65,10 +85,23 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(10f, Yval, 0);
         }
     }
+    
+    
     public void Key(Vector3 vector, float axis)
     {
 
         transform.Translate(vector * Time.deltaTime * moveSpeed * axis);
+    }
+
+    public void TrippleShotPowerUp()
+    {
+        CanTrippleShoot = true;
+        StartCoroutine(player.TrippleShotPowerDown());
+    }
+  public IEnumerator TrippleShotPowerDown()
+    {
+        yield return new WaitForSeconds(5.0f);
+        CanTrippleShoot = false;
     }
 }
 
