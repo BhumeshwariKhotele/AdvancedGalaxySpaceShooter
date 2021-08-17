@@ -41,7 +41,7 @@ public class TrippleShotAndPowerUp : MonoBehaviour
                 }
                 else if (powerUpID == 2)
                 {
-                //enable for shield
+                     //enable for shield
                 }
 
             }
