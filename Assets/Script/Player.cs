@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //variable to know power speed up if you collected the speed power up
+    public bool isSpeedPowerUpActive = false;
     public bool CanTrippleShoot = false;
     [SerializeField] float moveSpeed;
     [SerializeField] GameObject laserPrefab;
@@ -26,16 +28,25 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
+        //if speed power up enabled then move 2x faster
+        if (isSpeedPowerUpActive == true)
         {
-            Key(Vector3.right, horizontal);
+
         }
-        else if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
+        else
         {
-            Key(Vector3.up, vertical);
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
+            {
+                Key(Vector3.right, horizontal);
+            }
+            else if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
+            {
+                Key(Vector3.up, vertical);
+            }
         }
         //Player  Boundarys
         XYDirection(transform.position.x, transform.position.y);
+    
         //Instantiating laser
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
         {
@@ -96,13 +107,29 @@ public class Player : MonoBehaviour
     public void TrippleShotPowerUp()
     {
         CanTrippleShoot = true;
-        StartCoroutine(player.TrippleShotPowerDown());
+        StartCoroutine("TripleShotPowerDown");
+
     }
-  public IEnumerator TrippleShotPowerDown()
+    
+    public void SpeedPowerUpOn()
+    {
+        isSpeedPowerUpActive = true;
+        StartCoroutine("SpeedPowerDown");
+
+    }
+
+    public IEnumerator TrippleShotPowerDown()
     {
         yield return new WaitForSeconds(5.0f);
         CanTrippleShoot = false;
     }
+
+    public IEnumerator SpeedPowerDown()
+    {
+        yield return new WaitForSeconds(5.0f);
+        CanTrippleShoot = false;
+    }
+
 }
 
 

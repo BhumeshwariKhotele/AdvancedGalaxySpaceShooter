@@ -6,7 +6,7 @@ public class LaserMovement : MonoBehaviour
 {
     [SerializeField]
     private float laserSpeed;
-
+ 
     // Start is called before the first frame update
     void Start()
     {
